@@ -1,6 +1,6 @@
 package com.frank.messaging.controller;
 
-import com.frank.messaging.User;
+import com.frank.messaging.request.ActivateUserRequest;
 import com.frank.messaging.request.RegisterUserRequest;
 import com.frank.messaging.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,8 @@ public class UserController {
     @Autowired private UserService userService;// = new UserService();
 
     @PostMapping("/register") // /users/register
-    public void register(@RequestBody RegisterUserRequest registerUserRequest) throws Exception { // I/O exchange; entrypoint
+    public void register(@RequestBody RegisterUserRequest registerUserRequest) throws Exception { // I/O exchange;
+        // entrypoint
         System.out.println(registerUserRequest);
         this.userService.register(registerUserRequest.getUsername(),
                                   registerUserRequest.getPassword(),
@@ -26,6 +27,11 @@ public class UserController {
                                   registerUserRequest.getAddress(),
                                   registerUserRequest.getGender()); // BullPointerException
 
+    }
+
+    @PostMapping("/activate")
+    public void activate(@RequestBody ActivateUserRequest activateUserRequest) throws Exception {
+        this.userService.activate(activateUserRequest.getUsername(), activateUserRequest.getValidationCode());
     }
 
     @PostMapping("/login")

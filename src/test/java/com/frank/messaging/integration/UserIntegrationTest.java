@@ -122,4 +122,20 @@ class UserIntegrationTest {
         userValidationCodeDTO = this.userValidationCodeDAO.selectByUserId(userDTO.getId());
         assertNull(userValidationCodeDTO);
     }
+
+    @Test
+    void testActivate_nonExistingUser_returns400() throws Exception {
+        var content = """
+                {
+                    "username": "randomuser",
+                    "validationCode": "123456"
+                }
+                """;
+        this.mockMvc.perform(post("/users/activate")
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .content(content))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("User does not exist"));
+
+    }
 }

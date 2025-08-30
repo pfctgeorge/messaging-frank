@@ -134,6 +134,8 @@ class UserIntegrationTest {
         this.mockMvc.perform(post("/users/activate")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(content))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Wrong user validation cod"));
+
     }
 }

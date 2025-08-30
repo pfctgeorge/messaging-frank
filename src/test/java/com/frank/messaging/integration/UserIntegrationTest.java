@@ -135,7 +135,7 @@ class UserIntegrationTest {
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(content))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Wrong user validation cod"));
+                .andExpect(content().string("User does not exist"));
 
     }
 }

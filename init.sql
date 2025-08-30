@@ -1,9 +1,9 @@
-CREATE DATABASE `messaging`;
+CREATE DATABASE `messaging_test`;
 
 CREATE USER 'messaging'@'%' IDENTIFIED BY 'messaging2021';
 GRANT ALL PRIVILEGES ON *.* TO messaging@'%';
 
-USE messaging;
+USE messaging_test;
 
 CREATE TABLE `user` (
                         `id` int NOT NULL AUTO_INCREMENT,

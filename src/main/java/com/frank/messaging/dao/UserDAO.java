@@ -1,6 +1,7 @@
 package com.frank.messaging.dao;
 
 import com.frank.messaging.dto.UserDTO;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -22,6 +23,9 @@ public interface UserDAO { // DAO = data access object
 
     @Update("UPDATE user SET is_valid = 1 WHERE id = #{id}")
     void updateToValid(int id);
+
+    @Delete("DELETE FROM user")
+    void deleteAll();
 }
 
 

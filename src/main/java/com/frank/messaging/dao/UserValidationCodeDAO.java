@@ -19,4 +19,7 @@ public interface UserValidationCodeDAO {
 
     @Delete("DELETE FROM user_validation_code WHERE id = #{id}")
     void deleteById(int id);
+
+    @Delete("DELETE FROM user_validation_code")
+    void deleteAll();
 }

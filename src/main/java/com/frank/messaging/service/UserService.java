@@ -9,6 +9,8 @@ import com.frank.messaging.dao.UserValidationCodeDAO;
 import com.frank.messaging.dto.UserDTO;
 import com.frank.messaging.dto.UserValidationCodeDTO;
 import com.frank.messaging.enumeration.Gender;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,6 @@ public class UserService { // UserLogic, UserManager
                          String nickname,
                          String address,
                          Gender gender) throws Exception {
-        System.out.println(email);
         // input validation
         if (!password.equals(repeatPassword)) {
             throw new Exception("Passwords are different.");
@@ -54,6 +55,7 @@ public class UserService { // UserLogic, UserManager
         userDTO.setAddress(address);
         userDTO.setGender(gender);
         userDTO.setRegisterTime(new Date());
+        userDTO.setIsValid(false);
 
         this.userDAO.insert(userDTO);
 
@@ -66,7 +68,7 @@ public class UserService { // UserLogic, UserManager
 
         String subject = "Validation Code for User Registration";
         String content = "Validation code: " + validationCode;
-//      this.emailService.send(email, subject, content);
+        //      this.emailService.send(email, subject, content);
     }
 
 
@@ -89,6 +91,31 @@ public class UserService { // UserLogic, UserManager
 
         this.userDAO.updateToValid(userDTO.getId());
         this.userValidationCodeDAO.deleteById(userValidationCodeDTO.getId());
+
+    }
+
+    public String login(String username, String password) throws Exception {
+        UserDTO userDTO = this.userDAO.selectByUsername(username);
+        if (userDTO == null) {
+            throw new Exception("User does not exist");
+        }
+        if (!password.equals(userDTO.getPassword())) {
+            throw new Exception("Wrong password");
+        }
+
+        String loginToken = RandomStringUtils.secure().nextAlphanumeric(64);
+        Date lastLoginTime = new Date();
+        this.userDAO.login(loginToken, lastLoginTime, userDTO.getId());
+        return loginToken;
+    }
+
+    public void logout(String loginToken) throws Exception {
+
+        UserDTO userDTO = this.userDAO.selectByLoginToken(loginToken);
+        if (userDTO == null) {
+            throw new Exception("Login token is not valid");
+        }
+        this.userDAO.logout(userDTO.getId());
 
     }
 }

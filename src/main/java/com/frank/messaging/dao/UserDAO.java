@@ -1,5 +1,7 @@
 package com.frank.messaging.dao;
 
+import java.util.Date;
+
 import com.frank.messaging.dto.UserDTO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -26,6 +28,15 @@ public interface UserDAO { // DAO = data access object
 
     @Delete("DELETE FROM user")
     void deleteAll();
+
+    @Update("UPDATE user SET login_token = #{loginToken}, last_login_time = #{lastLoginTime} WHERE id = #{id}")
+    void login(String loginToken, Date lastLoginTime, Integer id);
+
+    @Select("SELECT * FROM user WHERE login_token = #{loginToken}")
+    UserDTO selectByLoginToken(String loginToken);
+
+    @Update("UPDATE user SET login_token = NULL, last_login_time = NULL WHERE id = #{id}")
+    void logout(Integer id);
 }
 
 

@@ -31,7 +31,7 @@ class UserServiceTest {
     @Captor ArgumentCaptor<UserValidationCodeDTO> userValidationCodeDTOArgumentCaptor;
 
     @InjectMocks UserService userService;
-
+    
     @Test
     void testRegister_twoPasswordsNotSame_throwsException() {
 

@@ -8,6 +8,7 @@ import com.frank.messaging.request.ActivateUserRequest;
 import com.frank.messaging.request.RegisterUserRequest;
 import com.frank.messaging.request.UserLoginRequest;
 import com.frank.messaging.service.UserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
+@Log4j2
 public class UserController {
+
 
     @Autowired private UserService userService;// = new UserService();
 
+    // access log
+    // 3 fundamental metrics = invocation, latency, errored
+
     @PostMapping("/register") // /users/register
     public void register(@RequestBody RegisterUserRequest registerUserRequest) throws Exception { // I/O exchange;
-        // entrypoint
-        System.out.println(registerUserRequest);
+
         this.userService.register(registerUserRequest.getUsername(),
                                   registerUserRequest.getPassword(),
                                   registerUserRequest.getRepeatPassword(),
@@ -34,7 +39,6 @@ public class UserController {
                                   registerUserRequest.getNickname(),
                                   registerUserRequest.getAddress(),
                                   registerUserRequest.getGender()); // BullPointerException
-
     }
 
     @PostMapping("/activate")

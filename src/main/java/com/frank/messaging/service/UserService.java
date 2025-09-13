@@ -10,11 +10,12 @@ import com.frank.messaging.dto.UserDTO;
 import com.frank.messaging.dto.UserValidationCodeDTO;
 import com.frank.messaging.enumeration.Gender;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 @Service
+@Primary
 public class UserService { // UserLogic, UserManager
 
     @Autowired private UserDAO userDAO;

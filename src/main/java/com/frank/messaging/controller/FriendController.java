@@ -3,8 +3,11 @@ package com.frank.messaging.controller;
 import java.util.List;
 
 import com.frank.messaging.dto.FriendInvitationDTO;
+import com.frank.messaging.dto.UserDTO;
 import com.frank.messaging.request.SendFriendInvitationRequest;
 import com.frank.messaging.response.FriendInvitationResponse;
+import com.frank.messaging.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/friends")
 public class FriendController {
 
+    @Autowired private UserService userService;
     @PostMapping("/invite")
     public void sendFriendInvitation(@CookieValue("login_token") String loginToken,
                                      @RequestBody SendFriendInvitationRequest sendFriendInvitationRequest) {
-
-
     }
 
     @GetMapping("/pendingInvitations")

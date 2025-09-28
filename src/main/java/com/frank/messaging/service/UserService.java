@@ -1,5 +1,6 @@
 package com.frank.messaging.service;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Primary
 public class UserService { // UserLogic, UserManager
 
+    private Duration LOGIN_TOKEN_EXPIRY = Duration.ofDays(14);
     @Autowired private UserDAO userDAO;
     @Autowired private UserValidationCodeDAO userValidationCodeDAO;
 
@@ -93,6 +95,17 @@ public class UserService { // UserLogic, UserManager
         this.userDAO.updateToValid(userDTO.getId());
         this.userValidationCodeDAO.deleteById(userValidationCodeDTO.getId());
 
+    }
+
+    public UserDTO authenticate(String loginToken) throws Exception {
+        UserDTO userDTO = this.userDAO.selectByLoginToken(loginToken);
+        if (userDTO == null) {
+            throw new Exception("Login token is not valid");
+        }
+        if (System.currentTimeMillis() - userDTO.getLastLoginTime().getTime() > LOGIN_TOKEN_EXPIRY.toMillis()) {
+            throw new Exception("Login token expired");
+        }
+        return userDTO;
     }
 
     public String login(String username, String password) throws Exception {

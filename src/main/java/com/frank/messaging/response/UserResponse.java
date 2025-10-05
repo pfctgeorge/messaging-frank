@@ -1,7 +1,12 @@
 package com.frank.messaging.response;
 
+import lombok.Builder;
+import lombok.Value;
+
+@Builder
+@Value
 public class UserResponse {
-    private int id;
-    private String username;
-    private String nickname;
+    int id;
+    String username;
+    String nickname;
 }

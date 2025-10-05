@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.apigatewaymanagementapi.ApiGatewayManagementApiClient;
 import software.amazon.awssdk.services.cloudwatch.CloudWatchClient;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
@@ -37,6 +38,13 @@ public class AWSClientProvider {
         return ApiGatewayManagementApiClient.builder()
                 .region(Region.US_EAST_1)
                 .endpointOverride(URI.create("https://jlyl843aik.execute-api.us-east-1.amazonaws.com/production"))
+                .build();
+    }
+
+    @Bean
+    public DynamoDbClient dynamoDbClient() {
+        return DynamoDbClient.builder()
+                .region(Region.US_EAST_1)
                 .build();
     }
 }
